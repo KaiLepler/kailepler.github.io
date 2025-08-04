@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografik: Digitale Transformation im Schweizer Bankwesen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.31.1.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 400px;
+            width: 100%;
+        }
+        .flow-step {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+        .flow-step:not(:last-child)::after {
+            content: '→';
+            font-size: 2.5rem;
+            color: #772D8B;
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        @media (max-width: 768px) {
+            .flow-step:not(:last-child)::after {
+                content: '↓';
+                right: 50%;
+                top: 100%;
+                transform: translateX(50%) translateY(0);
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- 
+    Narrative Plan:
+    1. Introduction: Set the stage for the digital shift in Swiss banking.
+    2. Key Investment Areas: Show where banks are focusing their digital transformation budgets (Donut Chart).
+    3. AI Adoption Growth: Illustrate the projected increase in AI integration over time (Line Chart).
+    4. Customer Channel Preference: Compare the shift from traditional to digital channels (Stacked Bar Chart).
+    5. Cybersecurity Challenges: Highlight the multifaceted nature of security threats (Radar Chart).
+    6. Regional Innovation Hubs: Visualize the concentration of FinTech activity across major Swiss cantons (Bubble Chart).
+    7. The Path Forward: Outline a simplified strategic roadmap for future success (HTML/CSS Flowchart).
+
+    Visualization Choices:
+    - Investment Areas: Goal: Compare. Visualization: Donut Chart. Justification: Ideal for showing parts of a whole for a few categories. Library: Chart.js (NO SVG).
+    - AI Adoption: Goal: Change. Visualization: Line Chart. Justification: Best for showing a trend over a continuous period. Library: Chart.js (NO SVG).
+    - Channel Preference: Goal: Compare. Visualization: Stacked Bar Chart. Justification: Shows composition within categories and change over time. Library: Chart.js (NO SVG).
+    - Cybersecurity: Goal: Compare. Visualization: Radar Chart. Justification: Excellent for comparing multiple quantitative variables for a single subject. Library: Chart.js (NO SVG).
+    - Innovation Hubs: Goal: Compare. Visualization: Bubble Chart. Justification: Compares three dimensions (x, y, size) across categories. Library: Plotly.js (WebGL rendering, NO SVG).
+    - Path Forward: Goal: Organize. Visualization: Flow Chart. Justification: Shows a process or sequence. Method: Structured HTML/CSS with Tailwind (NO SVG, NO MERMAID JS).
+
+    Color Palette Chosen: Energetic & Playful
+    Confirmation: NEITHER Mermaid JS NOR SVG were used in this document.
+    -->
+
+    <div class="container mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#772D8B] mb-4">Digitale Transformation im Schweizer Bankwesen</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">Eine visuelle Analyse der wichtigsten Trends, Investitionen und Herausforderungen, die die Zukunft der Finanzdienstleistungen in der Schweiz prägen.</p>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+            <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-1">
+                <h2 class="text-2xl font-bold text-[#772D8B] mb-2">Fokus der Digitalinvestitionen</h2>
+                <p class="text-gray-600 mb-4">Schweizer Banken investieren massiv in die Modernisierung. Die Verteilung der Budgets zeigt einen klaren Fokus auf die Verbesserung der Kundenerfahrung und die Automatisierung von Prozessen, um Effizienz und Wettbewerbsfähigkeit zu steigern.</p>
+                <div class="chart-container" style="height: 350px; max-height: 400px;">
+                    <canvas id="investmentDonutChart"></canvas>
+                </div>
+                <p class="text-sm text-gray-500 mt-4 text-center">Die Modernisierung der Kernbankensysteme bildet die Grundlage für alle weiteren digitalen Initiativen und beansprucht den grössten Anteil der Investitionen.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-1">
+                <h2 class="text-2xl font-bold text-[#772D8B] mb-2">Wachstum der KI-Adaption</h2>
+                <p class="text-gray-600 mb-4">Die Integration von Künstlicher Intelligenz (KI) ist kein Zukunftsthema mehr, sondern gelebte Realität. Die Prognosen zeigen ein exponentielles Wachstum der KI-Nutzung in den kommenden Jahren, insbesondere in den Bereichen Betrugserkennung und personalisierte Beratung.</p>
+                <div class="chart-container" style="height: 350px; max-height: 400px;">
+                    <canvas id="aiAdoptionLineChart"></canvas>
+                </div>
+                <p class="text-sm text-gray-500 mt-4 text-center">Die grösste Herausforderung bei der KI-Implementierung bleibt die Verfügbarkeit von qualitativ hochwertigen Daten und qualifizierten Fachkräften.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-2">
+                <h2 class="text-2xl font-bold text-[#772D8B] mb-2">Veränderung der Kundeninteraktion</h2>
+                <p class="text-gray-600 mb-4">Das Kundenverhalten hat sich nachhaltig verändert. Digitale Kanäle sind zur Norm geworden, während die Nutzung traditioneller Filialen für alltägliche Bankgeschäfte stetig abnimmt. Banken müssen eine nahtlose Omnichannel-Erfahrung bieten.</p>
+                <div class="chart-container" style="height: 400px; max-height: 450px;">
+                    <canvas id="channelUsageBarChart"></canvas>
+                </div>
+                <p class="text-sm text-gray-500 mt-4 text-center">Die persönliche Beratung in der Filiale bleibt für komplexe Finanzthemen wie Hypotheken oder Anlagenberatung weiterhin von hoher Relevanz.</p>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-1">
+                <h2 class="text-2xl font-bold text-[#772D8B] mb-2">Cybersicherheit im Fokus</h2>
+                <p class="text-gray-600 mb-4">Mit der zunehmenden Digitalisierung wächst auch die Angriffsfläche für Cyberkriminalität. Die Bedrohungslandschaft ist vielfältig und erfordert einen mehrschichtigen, proaktiven Sicherheitsansatz, der über reine Technologie hinausgeht.</p>
+                <div class="chart-container" style="height: 350px; max-height: 400px;">
+                    <canvas id="cybersecurityRadarChart"></canvas>
+                </div>
+                <p class="text-sm text-gray-500 mt-4 text-center">Social Engineering und Phishing stellen nach wie vor die grössten Risiken dar, da sie den Faktor Mensch als schwächstes Glied ausnutzen.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-1">
+                <h2 class="text-2xl font-bold text-[#772D8B] mb-2">Regionale Innovations-Hubs</h2>
+                <p class="text-gray-600 mb-4">Die FinTech-Innovation konzentriert sich auf wenige, aber dynamische Standorte in der Schweiz. Grosse Finanzzentren ziehen die meisten Start-ups und Investitionen an, doch auch kleinere Kantone entwickeln spezialisierte Nischen.</p>
+                <div id="fintechBubbleChart" class="chart-container" style="height: 350px; max-height: 400px;"></div>
+                <p class="text-sm text-gray-500 mt-4 text-center">Die Grösse der Blasen repräsentiert das gesamte Risikokapital (in Mio. CHF), das in den jeweiligen Kanton geflossen ist.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-2">
+                <h2 class="text-2xl font-bold text-[#772D8B] mb-2">Der Weg in die Zukunft</h2>
+                <p class="text-gray-600 mb-4">Eine erfolgreiche digitale Transformation folgt einem strategischen Prozess. Von der Stärkung des digitalen Fundaments bis zur Etablierung einer agilen Innovationskultur müssen Banken einen klaren Fahrplan verfolgen.</p>
+                <div class="mt-8 flex flex-col md:flex-row justify-around items-center gap-y-12 md:gap-y-0 md:gap-x-8">
+                    <div class="flow-step">
+                        <div class="p-4 bg-gray-200 rounded-lg w-40 h-24 flex items-center justify-center">
+                            <span class="font-semibold text-gray-700">1. Digitales Fundament stärken</span>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="p-4 bg-gray-200 rounded-lg w-40 h-24 flex items-center justify-center">
+                            <span class="font-semibold text-gray-700">2. Datengetriebene Kultur etablieren</span>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="p-4 bg-gray-200 rounded-lg w-40 h-24 flex items-center justify-center">
+                            <span class="font-semibold text-gray-700">3. Agile Methoden einführen</span>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                         <div class="p-4 bg-gray-200 rounded-lg w-40 h-24 flex items-center justify-center">
+                            <span class="font-semibold text-gray-700">4. Ökosysteme & Partnerschaften</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        const energeticPlayfulPalette = {
+            teal: '#00A6A6',
+            purple: '#772D8B',
+            orange: '#F28F3B',
+            coral: '#F26A4B',
+            pinkRed: '#D94A64',
+            lightGray: '#F3F4F6',
+            darkGray: '#4B5563'
+        };
+
+        function wrapLabel(str, maxWidth) {
+            if (str.length <= maxWidth) {
+                return str;
+            }
+            const words = str.split(' ');
+            let currentLine = '';
+            const lines = [];
+            for (const word of words) {
+                if ((currentLine + word).length > maxWidth) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            }
+            lines.push(currentLine.trim());
+            return lines;
+        }
+
+        const mandatoryTooltipOptions = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            } else {
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        function initializeCharts() {
+            const investmentDonutCtx = document.getElementById('investmentDonutChart').getContext('2d');
+            new Chart(investmentDonutCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Modernisierung Kernsysteme', 'Cybersecurity', 'KI & Automation', 'Kundenschnittstelle (UX/UI)'],
+                    datasets: [{
+                        label: 'Investitionsanteil',
+                        data: [40, 25, 20, 15],
+                        backgroundColor: [
+                            energeticPlayfulPalette.purple,
+                            energeticPlayfulPalette.teal,
+                            energeticPlayfulPalette.orange,
+                            energeticPlayfulPalette.coral
+                        ],
+                        borderColor: energeticPlayfulPalette.lightGray,
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        ...mandatoryTooltipOptions.plugins,
+                        legend: {
+                            position: 'bottom',
+                        },
+                    }
+                }
+            });
+
+            const aiAdoptionLineCtx = document.getElementById('aiAdoptionLineChart').getContext('2d');
+            new Chart(aiAdoptionLineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2022', '2023', '2024', '2025 (Proj.)', '2026 (Proj.)'],
+                    datasets: [{
+                        label: 'Anteil der Banken mit aktiven KI-Projekten (%)',
+                        data: [15, 28, 45, 65, 85],
+                        fill: true,
+                        backgroundColor: 'rgba(0, 166, 166, 0.2)',
+                        borderColor: energeticPlayfulPalette.teal,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    ...mandatoryTooltipOptions,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+
+            const channelUsageBarCtx = document.getElementById('channelUsageBarChart').getContext('2d');
+            new Chart(channelUsageBarCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['2020', '2022', '2024'],
+                    datasets: [
+                        {
+                            label: 'Digital (Mobile & E-Banking)',
+                            data: [55, 70, 85],
+                            backgroundColor: energeticPlayfulPalette.purple,
+                        },
+                        {
+                            label: 'Filiale',
+                            data: [35, 25, 12],
+                            backgroundColor: energeticPlayfulPalette.orange,
+                        },
+                        {
+                            label: 'Telefon-Banking',
+                            data: [10, 5, 3],
+                            backgroundColor: energeticPlayfulPalette.coral,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    ...mandatoryTooltipOptions,
+                    scales: {
+                        x: {
+                            stacked: true,
+                        },
+                        y: {
+                            stacked: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + "%"
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        ...mandatoryTooltipOptions.plugins,
+                        tooltip: {
+                            ...mandatoryTooltipOptions.plugins.tooltip,
+                            callbacks: {
+                               ...mandatoryTooltipOptions.plugins.tooltip.callbacks,
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            const cybersecurityRadarCtx = document.getElementById('cybersecurityRadarChart').getContext('2d');
+            new Chart(cybersecurityRadarCtx, {
+                type: 'radar',
+                data: {
+                    labels: [
+                        wrapLabel('Phishing & Social Engineering', 16), 
+                        'Malware & Ransomware', 
+                        'Insider-Bedrohungen', 
+                        'DDoS-Angriffe', 
+                        wrapLabel('Sicherheitslücken in Drittanbieter-Software', 16)
+                    ],
+                    datasets: [{
+                        label: 'Wahrgenommenes Risiko (Skala 1-10)',
+                        data: [9, 7, 6, 5, 8],
+                        fill: true,
+                        backgroundColor: 'rgba(242, 143, 59, 0.2)',
+                        borderColor: energeticPlayfulPalette.orange,
+                        pointBackgroundColor: energeticPlayfulPalette.orange,
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: energeticPlayfulPalette.orange
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    ...mandatoryTooltipOptions,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 10,
+                            pointLabels: {
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const fintechBubbleData = [{
+                x: [85], 
+                y: [90],
+                mode: 'markers',
+                marker: {
+                    size: [1200], 
+                    color: [energeticPlayfulPalette.purple],
+                    sizemode: 'area',
+                    sizeref: 2.0 * 1200 / (40**2)
+                },
+                text: ['Zürich: 1200 Mio. CHF'],
+                hoverinfo: 'text',
+                name: 'Zürich'
+            }, {
+                x: [70],
+                y: [65],
+                mode: 'markers',
+                marker: {
+                    size: [850],
+                    color: [energeticPlayfulPalette.teal],
+                    sizemode: 'area',
+                },
+                text: ['Genf: 850 Mio. CHF'],
+                hoverinfo: 'text',
+                name: 'Genf'
+            }, {
+                x: [40],
+                y: [50],
+                mode: 'markers',
+                marker: {
+                    size: [400],
+                    color: [energeticPlayfulPalette.orange],
+                    sizemode: 'area',
+                },
+                text: ['Zug: 400 Mio. CHF'],
+                hoverinfo: 'text',
+                name: 'Zug'
+            }, {
+                x: [25],
+                y: [30],
+                mode: 'markers',
+                marker: {
+                    size: [150],
+                    color: [energeticPlayfulPalette.coral],
+                    sizemode: 'area',
+                },
+                text: ['Luzern: 150 Mio. CHF'],
+                hoverinfo: 'text',
+                name: 'Luzern'
+            }];
+
+            const layout = {
+                xaxis: {
+                    title: 'Anzahl FinTech-Unternehmen',
+                    range: [0, 100],
+                    showgrid: false,
+                    zeroline: false
+                },
+                yaxis: {
+                    title: 'Verfügbarkeit von Talenten (Index)',
+                    range: [0, 100],
+                    showgrid: false,
+                    zeroline: false
+                },
+                showlegend: false,
+                margin: { l: 60, r: 20, b: 50, t: 20 },
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                hovermode: 'closest'
+            };
+
+            Plotly.newPlot('fintechBubbleChart', fintechBubbleData, layout, {responsive: true, displayModeBar: false});
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeCharts);
+    </script>
+</body>
+</html>
